@@ -5,8 +5,10 @@ var search = instantsearch({
   appId: 'latency',
   apiKey: '6be0576ff61c053d5f9a3225e2a90f76',
   indexName: 'instant_search',
-  urlSync: {
-    useHash: true
+  urlSync: {},
+  searchParameters: {
+    facets: ['categories'],
+    facetsRefinements:{ 'categories': ['Audio']}
   }
 });
 
@@ -114,6 +116,31 @@ search.addWidget(
 search.addWidget(
   instantsearch.widgets.refinementList({
     container: '#brands',
+    attributeName: 'brand',
+    operator: 'or',
+    limit: 3,
+    cssClasses: {
+      header: 'facet-title',
+      item: 'facet-value checkbox',
+      count: 'facet-count pull-right',
+      active: 'facet-active'
+    },
+    templates: {
+      header: 'Brands'
+    },
+    showMore: {
+      templates: {
+        'active': '<button>Show less</button>',
+        'inactive': '<button>Show more</button>'
+      },
+      limit: 10
+    }
+  })
+);
+
+search.addWidget(
+  instantsearch.widgets.refinementList({
+    container: '#brands-2',
     attributeName: 'brand',
     operator: 'or',
     limit: 10,
